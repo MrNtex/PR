@@ -8,6 +8,8 @@
 #include <sched.h>
 #include <linux/sched.h>
 
+#include "pomiar_czasu.h"
+
 int zmienna_globalna=0;
 
 #define ROZMIAR_STOSU 1024*64
@@ -32,6 +34,8 @@ int main()
   pid_t pid;
   int i; 
   
+  inicjuj_czas();
+  
   stos = malloc( ROZMIAR_STOSU );
   if (stos == 0) {
     printf("Proces nadrzędny - blad alokacji stosu\n");
@@ -46,6 +50,9 @@ int main()
     waitpid(pid, NULL, __WCLONE);
 
   }
+
+  drukuj_czas();
+  printf("Wartosc zmiennej globalnej po utworzeniu 1000 watkow: %d\n", zmienna_globalna);
 
   free( stos );
 }

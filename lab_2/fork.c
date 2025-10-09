@@ -19,8 +19,6 @@ int main(){
     pid = fork(); 			
     
     if(pid==0){ 			
-      
-      zmienna_globalna++;
 
       //char arg1[] = "/bin/ls";
       //char arg2[] = ".";
@@ -34,7 +32,7 @@ int main(){
       exit(0);
       
     } else {					
-      
+      zmienna_globalna++; 
       wait(NULL);
       
     }
@@ -42,6 +40,7 @@ int main(){
   }
 
   drukuj_czas();
+  printf("Wartosc zmiennej globalnej po utworzeniu 1000 procesow: %d\n", zmienna_globalna);
   
 }
 
