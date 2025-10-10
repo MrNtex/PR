@@ -20,10 +20,11 @@ int funkcja_watku( void* argument )
   zmienna_globalna++;
 
   int wynik;
-  wynik=execv("./program",NULL);
+  char* arg[] = {"Artur", "Niemiec"};
+  wynik=execv("./program",arg);
   if(wynik==-1)
     printf("Proces potomny nie wykonal programu\n");
-
+  
   return 0;
 }
 

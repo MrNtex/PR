@@ -16,15 +16,16 @@ int zmienna_globalna=0;
 
 int funkcja_watku( void* argument )
 {
-  int* local = (int*) argument;
-
+  int* ref = (int*) argument;
+  int local = 0;
   for(int i = 0; i < 1000000; i++) {
     zmienna_globalna++;
-    (*local)++;
+    local++;
   }
     
   printf("Watek (PID %d) zakonczyl: lokalna = %d, globalna = %d\n",
-           getpid(), *local, zmienna_globalna);
+           getpid(), local, zmienna_globalna);
+  *ref = local;
 
   return 0;
 }
@@ -45,6 +46,7 @@ int main()
     exit( 1 );
   }
 
+  // LOGIN GH: MrNtex
   pid = clone( &funkcja_watku, (void *) stos+ROZMIAR_STOSU, 
 		 CLONE_FS | CLONE_FILES | CLONE_SIGHAND | CLONE_VM, &lokalna1 );
   pid2 = clone( &funkcja_watku, (void *) stos2+ROZMIAR_STOSU, 
