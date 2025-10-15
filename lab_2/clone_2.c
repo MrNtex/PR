@@ -53,7 +53,7 @@ int main()
   waitpid(pid, NULL, __WCLONE);
   waitpid(pid2, NULL, __WCLONE);
 
-  drukuj_czas();
+  //drukuj_czas();
   printf("Po zakonczeniu watkow: lokalna1 = %d, lokalna2 = %d, globalna = %d\n", lokalna1, lokalna2, zmienna_globalna);
 
   free( stos );
