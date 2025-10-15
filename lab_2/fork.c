@@ -19,7 +19,6 @@ int main(){
     pid = fork(); 			
     
     if(pid==0){ 			
-
       char arg1[] = "/bin/ls";
       char arg2[] = ".";
       char* arg[] = {arg1,arg2,NULL};
