@@ -14,11 +14,11 @@ void* funkcja_watku(void* arg){
 int main()
 {
   pthread_t threads[ILOSC_WATKOW];
-  int thread_ids[ILOSC_WATKOW];
+  //int thread_ids[ILOSC_WATKOW];
 
   for (int i = 0; i < ILOSC_WATKOW; i++) {
-      thread_ids[i] = i;
-      pthread_create(&threads[i], NULL, funkcja_watku, &thread_ids[i]);
+      //thread_ids[i] = i;
+      pthread_create(&threads[i], NULL, funkcja_watku, &i);
   }
 
   for (int i = 0; i < ILOSC_WATKOW; i++) {
