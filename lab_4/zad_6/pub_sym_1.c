@@ -3,6 +3,7 @@
 #include <time.h>
 #include<pthread.h>
 #include <unistd.h>
+#include <stdbool.h>
 
 #define ILE_MUSZE_WYPIC 3
 
@@ -63,21 +64,31 @@ void * watek_klient (void * arg_wsk){
   printf("\nKlient %d, wchodzÄ do pubu\n", moj_id); 
     
   for(i=0; i<ile_musze_wypic; i++){
-    pthread_mutex_lock(&mutex_kufel);
-    while (dostepne_kufle <= 0) {
-      pthread_mutex_unlock(&mutex_kufel);
-      usleep(1);
-      pthread_mutex_lock(&mutex_kufel);
+    bool kufel_wybrany = false;
+    while(!kufel_wybrany){
+      if (pthread_mutex_trylock(&mutex_kufel) == 0) {
+        if (dostepne_kufle > 0) {
+          printf("\nKlient %d, wybieram kufel\n", moj_id); 
+          dostepne_kufle--;
+          kufel_wybrany = true;
+          pthread_mutex_unlock(&mutex_kufel);
+          break;
+        }
+        // mutex wolny, ale nie ma kufli
+        printf("\nKlient %d, brak wolnych kufli, czekam\n", moj_id);
+        pthread_mutex_unlock(&mutex_kufel);
+        wykonana_praca++;
+        usleep(50);
+      }
+      else {
+        wykonana_praca++;
+        usleep(50);
+      }
     }
 
-    printf("\nKlient %d, wybieram kufel\n", moj_id); 
-    
-    
-    dostepne_kufle--;
-    pthread_mutex_unlock(&mutex_kufel);
     j=0;
     printf("\nKlient %d, nalewam z kranu %d\n", moj_id, j); 
-    usleep(1);
+    usleep(50);
     
     printf("\nKlient %d, pije\n", moj_id); 
     nanosleep((struct timespec[]){{0, 50000000L}}, NULL);
@@ -86,6 +97,7 @@ void * watek_klient (void * arg_wsk){
     pthread_mutex_lock(&mutex_kufel);
     dostepne_kufle++;
     pthread_mutex_unlock(&mutex_kufel);
+    usleep(10);
   }
 
   printf("\nKlient %d, wychodzÄ z pubu; wykonana praca %ld\n",
