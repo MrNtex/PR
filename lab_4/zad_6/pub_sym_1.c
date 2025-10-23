@@ -77,7 +77,6 @@ void * watek_klient (void * arg_wsk){
         // mutex wolny, ale nie ma kufli
         printf("\nKlient %d, brak wolnych kufli, czekam\n", moj_id);
         pthread_mutex_unlock(&mutex_kufel);
-        wykonana_praca++;
         usleep(50);
       }
       else {
