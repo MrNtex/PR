@@ -10,6 +10,7 @@
 void * watek_klient (void * arg);
 
 pthread_mutex_t mutex_kufel;
+pthread_mutex_t mutex_kran;
 int dostepne_kufle;
 
 int main( void ){
@@ -25,6 +26,7 @@ int main( void ){
 
   dostepne_kufle = l_kf;
   pthread_mutex_init(&mutex_kufel, NULL);
+  pthread_mutex_init(&mutex_kran, NULL);
 
   //printf("\nLiczba kranow: "); scanf("%d", &l_kr);
   l_kr = 1000000000; // wystarczajÄco duĹźo, Ĺźeby nie byĹo rywalizacji 
@@ -86,8 +88,22 @@ void * watek_klient (void * arg_wsk){
     }
 
     j=0;
-    printf("\nKlient %d, nalewam z kranu %d\n", moj_id, j); 
-    usleep(50);
+	bool kran_wybrany = false;
+	while (!kran_wybrany)
+	{
+		if (pthread_mutex_trylock(&mutex_kran) == 0) {
+			printf("\nKlient %d, nalewam z kranu %d\n", moj_id, j); 
+    		usleep(50);
+			pthread_mutex_unlock(&mutex_kran);
+			kran_wybrany = true;
+			break;
+		}
+		else{
+			wykonana_praca++;
+        	usleep(50);
+		}
+	}
+    
     
     printf("\nKlient %d, pije\n", moj_id); 
     nanosleep((struct timespec[]){{0, 50000000L}}, NULL);
