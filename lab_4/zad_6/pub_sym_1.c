@@ -51,6 +51,7 @@ int main( void ){
   free(tab_klient);
   free(tab_klient_id);
   pthread_mutex_destroy(&mutex_kufel);
+  pthread_mutex_destroy(&mutex_kran);
 }
 
 
