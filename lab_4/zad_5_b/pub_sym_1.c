@@ -9,6 +9,7 @@
 void * watek_klient (void * arg);
 
 pthread_mutex_t mutex_kufel;
+pthread_mutex_t mutex_kran;
 int dostepne_kufle;
 
 int main( void ){
@@ -76,8 +77,10 @@ void * watek_klient (void * arg_wsk){
     dostepne_kufle--;
     pthread_mutex_unlock(&mutex_kufel);
     j=0;
+	pthread_mutex_lock(&mutex_kran);
     printf("\nKlient %d, nalewam z kranu %d\n", moj_id, j); 
     usleep(1);
+	pthread_mutex_unlock(&mutex_kran);
     
     printf("\nKlient %d, pije\n", moj_id); 
     nanosleep((struct timespec[]){{0, 50000000L}}, NULL);
