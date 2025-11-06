@@ -2,6 +2,13 @@
 #include<pthread.h>
 #include<math.h>
 
+typedef struct {
+    double a_local;
+    double b_local;
+    double dx;
+    double wynik;
+} DaneWatku;
+
 double funkcja ( double x );
 
 double calka_dekompozycja_obszaru(double a, double b, double dx, int l_w);
@@ -9,7 +16,8 @@ double calka_dekompozycja_obszaru(double a, double b, double dx, int l_w);
 void* calka_podobszar_w(void* arg_wsk);
 
 double calka_dekompozycja_obszaru(double a, double b, double dx, int l_w){
-
+  pthread_t watki[l_w];
+  DaneWatku dane_watkow[l_w];
 
   //printf("a %lf, b %lf, dx %lf\n", a, b, dx);
 
@@ -17,12 +25,22 @@ double calka_dekompozycja_obszaru(double a, double b, double dx, int l_w){
 
   // tworzenie struktur danych do obsługi wielowątkowości
 
+  double przedzial = (b - a) / l_w;
 
-  // tworzenie wątków
+  for (int i = 0; i < l_w; i++) {
+      dane_watkow[i].a_local = a + i * przedzial;
+      dane_watkow[i].b_local = (i == l_w - 1) ? b : dane_watkow[i].a_local + przedzial;
+      dane_watkow[i].dx = dx;
+      dane_watkow[i].wynik = 0.0;
 
+      pthread_create(&watki[i], NULL, calka_podobszar_w, (void*)&dane_watkow[i]);
+  }
 
   // oczekiwanie na zakończenie pracy wątków
-
+  for (int i = 0; i < l_w; i++) {
+      pthread_join(watki[i], NULL);
+      calka_suma_local += dane_watkow[i].wynik;
+  }
 
   return(calka_suma_local);
 }
@@ -31,28 +49,19 @@ double calka_dekompozycja_obszaru(double a, double b, double dx, int l_w){
 
 void* calka_podobszar_w(void* arg_wsk){
 
-  double a_local, b_local, dx;
-  // rozpakowanie danych przesłanych do wątku
+  DaneWatku* dane = (DaneWatku*)arg_wsk;
+  double a = dane->a_local;
+  double b = dane->b_local;
+  double dx      = dane->dx;
 
-  int my_id; // skąd pobierany?
-  printf("\nWątek %d: a_local %lf, b_local %lf, dx %lf\n", 
-	 my_id, a_local, b_local, dx);
-  // wywołanie zadania do wykonania: całkowanie w zadanym przedziale 
-  // calka = calka_sekw(a_local, b_local, dx);
-  // (trzeba także dodać prototyp na początku pliku)
-  
-// zadanie w funkcji calka_sekw jest równoważne obliczeniom:
-//  int N_local = ceil((b_local-a_local)/dx);
-//  double dx_adjust_local = (b_local-a_local)/N_local;
-//  printf("a_local %lf, b_local %lf, dx_adjust_local %lf, n_local %d\n", 
-//	 a_local, b_local, dx_adjust_local, N_local);
-//  int i;
-//  double calka = 0.0;
-//  for(i=0; i<N_local; i++){
-//    double x1 = a_local + i*dx_adjust_local;
-//    calka += 0.5*dx_adjust_local*(funkcja(x1)+funkcja(x1+dx_adjust_local));
-    //printf("i %d, x1 %lf, funkcja(x1) %lf, całka = %.15lf\n", 
-    //	   i, x1, funkcja(x1), calka);
-//  }
+  int N_local = ceil((b - a) / dx);
+  double dx_adj = (b - a) / N_local;
+  double calka = 0.0;
+  for (int i = 0; i < N_local; i++) {
+      double x1 = a + i * dx_adj;
+      calka += 0.5 * dx_adj * (funkcja(x1) + funkcja(x1 + dx_adj));
+  }
 
+  dane->wynik = calka;
+  return NULL;
 }
