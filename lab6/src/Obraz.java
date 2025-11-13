@@ -9,6 +9,7 @@ class Obraz {
     private char[] tab_symb;
     private int[] histogram;
     private int[] hist_parallel;
+    private int[][] local_histograms;
 
     public Obraz(int n, int m) {
 
@@ -97,6 +98,23 @@ class Obraz {
         System.out.println();
     }
 
+    public void create_local_histogram(int n) {
+        local_histograms = new int[n][94];
+    }
+
+    public void save_local_histogram(int id, int[] histogram) {
+        local_histograms[id] = histogram;
+    }
+
+    public void sum_local_histograms()
+    {
+        for (int i=0;i<94;i++) {
+            for (int[] localHistogram : local_histograms) {
+                hist_parallel[i] += localHistogram[i];
+            }
+        }
+    }
+
 
 // uniwersalny wzorzec dla rĂłĹźnych wariantĂłw zrĂłwnoleglenia - moĹźna go modyfikowaÄ dla
 // rĂłĹźnych wersji dekompozycji albo stosowaÄ tak jak jest zapisane poniĹźej zmieniajÄc tylko
@@ -136,4 +154,8 @@ class Obraz {
 
     public char getSymbol(int i) { return tab_symb[i]; }
     public int getParallelValue(int i) { return hist_parallel[i]; }
+    public int getSize_n() { return size_n; }
+    public int getSize_m() { return size_m; }
+    public char getCharFromTab(int i, int j) { return tab[i][j]; }
+    public int[][] getLocalHistograms() { return local_histograms; }
 }
