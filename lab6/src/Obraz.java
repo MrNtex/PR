@@ -131,7 +131,7 @@ class Obraz {
 //
 
 
-    public void print_histogram(){
+    public synchronized void print_histogram(){
 
         for(int i=0;i<94;i++) {
             System.out.print(tab_symb[i]+" "+histogram[i]+"\n");
@@ -159,3 +159,4 @@ class Obraz {
     public char getCharFromTab(int i, int j) { return tab[i][j]; }
     public int[][] getLocalHistograms() { return local_histograms; }
 }
+
