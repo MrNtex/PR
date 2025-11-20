@@ -30,7 +30,7 @@ class DivideTask extends RecursiveTask<int[]> {
         int[] tab1 = task1.join();
         int[] tab2 = task2.join();
 
-        int[] merged = Arrays.copyOf(tab1, tab1.length + tab2.length);
+        int[] merged = new int[tab1.length + tab2.length];
         scal_tab(tab1, tab2, merged);
 
         return merged;
@@ -70,3 +70,4 @@ class DivideTask extends RecursiveTask<int[]> {
     }
 
 }
+
