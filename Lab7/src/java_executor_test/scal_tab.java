@@ -1,7 +1,8 @@
 package java_executor_test;
 
+import java.util.Arrays;
 import java.util.concurrent.RecursiveTask;
-/*
+
 class DivideTask extends RecursiveTask<int[]> {
 
     int[] arrayToDivide;
@@ -12,19 +13,27 @@ class DivideTask extends RecursiveTask<int[]> {
 
     protected int[] compute() {
 
-        // .......
+        if (arrayToDivide.length <= 1) return arrayToDivide;
 
-        DivideTask task1 = new DivideTask(....);
-        DivideTask task2 = new DivideTask(....);
+        int mid = arrayToDivide.length / 2;
 
-        // .......
+        int[] left = Arrays.copyOfRange(arrayToDivide, 0, mid);
+        int[] right = Arrays.copyOfRange(arrayToDivide, mid, arrayToDivide.length);
+
+        DivideTask task1 = new DivideTask(left);
+        DivideTask task2 = new DivideTask(right);
+
+        task1.fork();
+        task2.fork();
 
         //Wait for results from both tasks
         int[] tab1 = task1.join();
         int[] tab2 = task2.join();
 
-        scal_tab(tab1, tab2, scal_tab);
+        int[] merged = Arrays.copyOf(tab1, tab1.length + tab2.length);
+        scal_tab(tab1, tab2, merged);
 
+        return merged;
     }
 
     private void scal_tab(
@@ -61,4 +70,3 @@ class DivideTask extends RecursiveTask<int[]> {
     }
 
 }
-*/
