@@ -13,7 +13,10 @@ public class Calka_Executor {
 
         int NWATKOW = 4;
         int NZADAN = 20;
-        double dx = 0.00001;
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter dx: ");
+        double dx = scanner.nextDouble();
 
         ExecutorService executor = Executors.newFixedThreadPool(NWATKOW);
 
