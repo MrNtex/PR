@@ -91,7 +91,7 @@ void* calka_fragment_petli_w(void* arg_wsk){
 
   // Aby przetestować wariant blokowy, zakomentuj powyższe 3 linie (cykliczne)
   // i odkomentuj poniższy fragment. Zapewnia równomierny podział (ostatni blok może być krótszy).
-  int blok = (N + l_w - 1) / l_w;   // rozmiar bloku (zaokrąglanie w górę)
+  int blok = ceil((double)N / l_w);
   int my_start = my_id * blok;
   int my_end = my_start + blok; if(my_end > N) my_end = N;
   int my_stride = 1;

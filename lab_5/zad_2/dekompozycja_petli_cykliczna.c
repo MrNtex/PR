@@ -30,7 +30,7 @@ double calka_zrownoleglenie_petli(double a, double b, double dx, int l_w){
 
 
   // tworzenie struktur danych do obsługi wielowątkowości
-  calka_global = 0.0;             // reset globalnej sumy
+  calka_global = 0.0;
   a_global = a;
   b_global = b;
   dx_global = dx_adjust;
@@ -39,21 +39,13 @@ double calka_zrownoleglenie_petli(double a, double b, double dx, int l_w){
 
   pthread_t *watki = (pthread_t*)malloc(sizeof(pthread_t) * l_w);
   int *ids = (int*)malloc(sizeof(int) * l_w);
-  if(!watki || !ids){
-    fprintf(stderr, "Błąd alokacji pamięci dla wątków.\n");
-    free(watki); free(ids);
-    return 0.0;
-  }
 
-
-  // tworzenie wątków
   for(int i=0; i<l_w; ++i){
     ids[i] = i;
     pthread_create(&watki[i], NULL, calka_fragment_petli_w, (void*)&ids[i]);
   }
 
 
-  // oczekiwanie na zakończenie pracy wątków
   for(int i=0; i<l_w; ++i){
     pthread_join(watki[i], NULL);
   }
