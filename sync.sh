@@ -1,0 +1,1 @@
+vpn % sudo /opt/homebrew/opt/openvpn/sbin/openvpn --config ~/vpn/VPN-AGH.2026.ovpn
