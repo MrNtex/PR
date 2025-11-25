@@ -1,37 +1,34 @@
 #include <pthread.h>
 #include <stdio.h>
+#include "bariera.h"
 
-static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-static pthread_cond_t cond = PTHREAD_COND_INITIALIZER;
+void bariera_init(bariera_t* b, int n) {
+    b->liczba_watkow = n;
+    b->licznik_oczekujacych = 0;
+    b->id_bariery = 0;
 
-static int licznik_oczekujacych = 0;
-static int liczba_watkow = 0;
-static int id_bariery = 0;
-
-void bariera_init(int n) {
-    liczba_watkow = n;
-    licznik_oczekujacych = 0;
-    id_bariery = 0;
+    pthread_mutex_init(&b->mutex, NULL);
+    pthread_cond_init(&b->cond, NULL);
 }
 
-void bariera(void) {
-    pthread_mutex_lock(&mutex);
-    int moje_id_bariery = id_bariery;
+void bariera(bariera_t* b) {
+    pthread_mutex_lock(&b->mutex);
+    int moje_id_bariery = b->id_bariery;
     
-    licznik_oczekujacych++;
+    b->licznik_oczekujacych++;
 
-    if (licznik_oczekujacych == liczba_watkow) {
-        licznik_oczekujacych = 0;
+    if (b->licznik_oczekujacych == b->liczba_watkow) {
+        b->licznik_oczekujacych = 0;
 
-        id_bariery++;
+        b->id_bariery++;
 
-        pthread_cond_broadcast(&cond);
+        pthread_cond_broadcast(&b->cond);
         
     } else {
-        while (moje_id_bariery == id_bariery) {
-            pthread_cond_wait(&cond, &mutex);
+        while (moje_id_bariery == b->id_bariery) {
+            pthread_cond_wait(&b->cond, &b->mutex);
         }
     }
 
-    pthread_mutex_unlock(&mutex);
+    pthread_mutex_unlock(&b->mutex);
 }
