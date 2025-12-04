@@ -1,10 +1,12 @@
+package java_executor_test;
+
 import java.util.concurrent.ForkJoinPool;
 import java.util.Arrays;
 
-public class ScalTabForkJoin extends java.util.concurrent.RecursiveTask<int[]> {
-    public static int[] main(int[] arr) {
+public class ScalTabForkJoin {
+    public static int[] sort(int[] arr) {
         ForkJoinPool pool = new ForkJoinPool();
-        ScalTabForkJoin task = new ScalTabForkJoin(arr);
+        DivideTask task = new DivideTask(arr);
         int[] sorted = pool.invoke(task);
         return sorted;
     }
