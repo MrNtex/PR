@@ -12,13 +12,13 @@ void *funkcja_pisarza( void *);
 int main(){
   
   int i;
-  pthread_t pisarze[5], czytelnicy[10];
+  pthread_t pisarze[2], czytelnicy[10];
   int indeksy[10] = {0,1,2,3,4,5,6,7,8,9}; 
   cz_t czytelnia;
   
   inicjuj(&czytelnia);
     
-  for(i=0; i<5; i++){
+  for(i=0; i<2; i++){
     pthread_create( &pisarze[i], NULL, funkcja_pisarza, (void *)&czytelnia );
   }
   for(i=0; i<10; i++){

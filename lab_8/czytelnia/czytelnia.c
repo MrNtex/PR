@@ -81,7 +81,7 @@ void czytam(cz_t* cz_p){
 // sprawdzenie warunku poprawności i ewentualny exit
 // warunek:
   #ifdef MY_DEBUG
-    printf("\t\t\t\t\t[DEBUG] Czytam: l_c=%d, l_p=%d\n", cz_p->l_c, cz_p->l_p);
+    printf("\t\t\t\t\t[DEBUG] Czytam: l_c=%d, l_p=%d, l_ocz_p=%d\n", cz_p->l_c, cz_p->l_p, cz_p->l_ocz_p);
 
     if(cz_p->l_p > 0 || cz_p->l_c < 1) {
         printf("BLAD KRYTYCZNY: Czytelnik widzi pisarza lub zly licznik!\n");
@@ -95,7 +95,7 @@ void czytam(cz_t* cz_p){
 void pisze(cz_t* cz_p){
 
   #ifdef MY_DEBUG
-    printf("\t\t\t\t\t[DEBUG] Pisze:  l_c=%d, l_p=%d\n", cz_p->l_c, cz_p->l_p);
+    printf("\t\t\t\t\t[DEBUG] Pisze:  l_c=%d, l_p=%d, l_ocz_p=%d\n", cz_p->l_c, cz_p->l_p, cz_p->l_ocz_p);
 
     if(cz_p->l_p != 1 || cz_p->l_c > 0) {
         printf("BLAD KRYTYCZNY: Pisarz widzi innych lub zly licznik!\n");
