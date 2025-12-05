@@ -141,5 +141,60 @@ int main ()
     }
     printf("Suma rownolegle (Wariant 5): %lf\n", suma_parallel);
 
+    printf("--- WARIANT 6: Wewn. rownolegla, Zewn. sekwencyjna (schedule static, 1) ---\n");
+    
+    omp_set_num_threads(WYMIAR);
+
+    double sumy_czesciowe[WYMIAR];
+
+    for(int k=0; k<WYMIAR; k++) sumy_czesciowe[k] = 0.0;
+
+    for(j=0; j<WYMIAR; j++) {
+#pragma omp parallel for schedule(static, 1) shared(a, sumy_czesciowe, j) default(none) private(i) ordered
+        for(i=0; i<WYMIAR; i++) {
+            int id_watku = omp_get_thread_num();
+            sumy_czesciowe[id_watku] += a[i][j];
+
+            #pragma omp ordered
+            {
+                 printf("(%1d,%1d)-W_%1d ", i, j, id_watku);
+            }
+        }
+        printf("\n");
+    }
+
+    suma_parallel = 0.0;
+    for(int k=0; k<WYMIAR; k++) {
+        suma_parallel += sumy_czesciowe[k];
+    }
+    
+    printf("Suma rownolegle (Wariant 6): %lf\n\n", suma_parallel);
+    
+    printf("--- WARIANT 7: Wewn. rownolegla, Zewn. sekwencyjna (schedule dynamic) ---\n");
+    
+    for(int k=0; k<WYMIAR; k++) sumy_czesciowe[k] = 0.0;
+
+    for(j=0; j<WYMIAR; j++) {
+#pragma omp parallel for schedule(dynamic) shared(a, sumy_czesciowe, j) default(none) private(i) ordered
+        for(i=0; i<WYMIAR; i++) {
+            
+            int id_watku = omp_get_thread_num();
+            sumy_czesciowe[id_watku] += a[i][j];
+
+            #pragma omp ordered
+            {
+                 printf("(%1d,%1d)-W_%1d ", i, j, id_watku);
+            }
+        }
+        printf("\n"); 
+    }
+
+    suma_parallel = 0.0;
+    for(int k=0; k<WYMIAR; k++) {
+        suma_parallel += sumy_czesciowe[k];
+    }
+    
+    printf("Suma rownolegle (Wariant 7): %lf\n", suma_parallel);
+
     return 0;
 }
