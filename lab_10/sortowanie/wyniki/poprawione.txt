@@ -1,0 +1,29 @@
+podaj rozmiar tablicy:
+100000000
+czas sortowania systemowego: 11.380932
+wynik OK
+czas sortowania przez scalanie: 12.753071
+wynik OK
+czas sortowania szybkiego: 8.067977
+wynik OK
+czas rownoleglego sortowania przez scalanie: 2.886681
+wynik OK
+watek 13, poziom 0
+watek 10, poziom 1
+watek 18, poziom 1
+watek 20, poziom 2
+watek 20, poziom 3
+watek 18, poziom 2
+watek 9, poziom 3
+watek 18, poziom 3
+watek 2, poziom 2
+watek 2, poziom 3
+watek 10, poziom 2
+watek 10, poziom 3
+watek 23, poziom 3
+watek 16, poziom 3
+watek 5, poziom 3
+czas rownoleglego sortowania przez scalanie (final): 2.000167
+wynik OK
+czas rownoleglego sortowania przez scalanie (nested): 4.974307
+wynik OK

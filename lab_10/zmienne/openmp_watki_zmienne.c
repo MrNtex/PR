@@ -57,6 +57,7 @@ int main(){
 
     #pragma omp barrier
     
+    // WAW
     #pragma omp critical(print_values)
     {
       
