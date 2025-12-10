@@ -1,0 +1,48 @@
+OMP_NUM_THREADS=5
+
+Kompilator rozpoznaje dyrektywy OpenMP
+przed wejsciem do obszaru rownoleglego -  nr_threads 1, thread ID 0
+        a_shared        = 1
+        b_private       = 2
+        c_firstprivate  = 3
+        e_atomic        = 5
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 4
+        a_shared        = 51
+        b_private       = 0
+        c_firstprivate  = 43
+        d_local_private = 4
+        e_atomic        = 105
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 1
+        a_shared        = 51
+        b_private       = 0
+        c_firstprivate  = 13
+        d_local_private = 4
+        e_atomic        = 105
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 2
+        a_shared        = 51
+        b_private       = 0
+        c_firstprivate  = 23
+        d_local_private = 4
+        e_atomic        = 105
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 3
+        a_shared        = 51
+        b_private       = 0
+        c_firstprivate  = 33
+        d_local_private = 4
+        e_atomic        = 105
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 0
+        a_shared        = 51
+        b_private       = 0
+        c_firstprivate  = 3
+        d_local_private = 4
+        e_atomic        = 105
+po zakonczeniu obszaru rownoleglego:
+        a_shared        = 51
+        b_private       = 2
+        c_firstprivate  = 3
+        e_atomic        = 105

@@ -1,0 +1,258 @@
+DOMYSLNA:
+
+mrntex@ArturNiemiec:~/PR/lab_10/zmienne$ ./openmp_watki_zmienne
+
+Kompilator rozpoznaje dyrektywy OpenMP
+przed wejsciem do obszaru rownoleglego -  nr_threads 1, thread ID 0
+        a_shared        = 1
+        b_private       = 2
+        c_firstprivate  = 3
+        e_atomic        = 5
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 3
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 33
+        d_local_private = 31
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 16
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 163
+        d_local_private = 14
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 4
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 43
+        d_local_private = 18
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 18
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 183
+        d_local_private = 43
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 5
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 53
+        d_local_private = 50
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 13
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 133
+        d_local_private = 34
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 23
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 233
+        d_local_private = 58
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 2
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 23
+        d_local_private = 4
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 20
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 203
+        d_local_private = 8
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 6
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 63
+        d_local_private = 39
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 21
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 213
+        d_local_private = 63
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 19
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 193
+        d_local_private = 48
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 22
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 223
+        d_local_private = 4
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 17
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 173
+        d_local_private = 58
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 14
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 143
+        d_local_private = 14
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 9
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 93
+        d_local_private = 28
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 15
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 153
+        d_local_private = 14
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 10
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 103
+        d_local_private = 14
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 12
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 123
+        d_local_private = 14
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 7
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 73
+        d_local_private = 28
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 1
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 13
+        d_local_private = 23
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 8
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 83
+        d_local_private = 28
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 11
+        a_shared        = 45
+        b_private       = 0
+        c_firstprivate  = 113
+        d_local_private = 28
+        e_atomic        = 912
+
+w obszarze równoległym: aktualna liczba watkow 24, moj ID 0
+        a_shared        = 55
+        b_private       = 0
+        c_firstprivate  = 3
+        d_local_private = 48
+        e_atomic        = 912
+po zakonczeniu obszaru rownoleglego:
+        a_shared        = 55
+        b_private       = 2
+        c_firstprivate  = 3
+        e_atomic        = 912
+
+OMP_NUM_THREADS=2
+
+przed wejsciem do obszaru rownoleglego -  nr_threads 1, thread ID 0
+        a_shared        = 1
+        b_private       = 2
+        c_firstprivate  = 3
+        e_atomic        = 5
+
+w obszarze równoległym: aktualna liczba watkow 2, moj ID 0
+        a_shared        = 21
+        b_private       = 0
+        c_firstprivate  = 3
+        d_local_private = 4
+        e_atomic        = 15
+
+w obszarze równoległym: aktualna liczba watkow 2, moj ID 1
+        a_shared        = 21
+        b_private       = 0
+        c_firstprivate  = 13
+        d_local_private = 14
+        e_atomic        = 15
+po zakonczeniu obszaru rownoleglego:
+        a_shared        = 21
+        b_private       = 2
+        c_firstprivate  = 3
+        e_atomic        = 15
+
+OMP_NUM_THREADS=5
+Kompilator rozpoznaje dyrektywy OpenMP
+przed wejsciem do obszaru rownoleglego -  nr_threads 1, thread ID 0
+        a_shared        = 1
+        b_private       = 2
+        c_firstprivate  = 3
+        e_atomic        = 5
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 0
+        a_shared        = 31
+        b_private       = 0
+        c_firstprivate  = 3
+        d_local_private = 8
+        e_atomic        = 65
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 2
+        a_shared        = 31
+        b_private       = 0
+        c_firstprivate  = 23
+        d_local_private = 14
+        e_atomic        = 65
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 1
+        a_shared        = 31
+        b_private       = 0
+        c_firstprivate  = 13
+        d_local_private = 18
+        e_atomic        = 65
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 3
+        a_shared        = 31
+        b_private       = 0
+        c_firstprivate  = 33
+        d_local_private = 4
+        e_atomic        = 65
+
+w obszarze równoległym: aktualna liczba watkow 5, moj ID 4
+        a_shared        = 31
+        b_private       = 0
+        c_firstprivate  = 43
+        d_local_private = 24
+        e_atomic        = 65
+po zakonczeniu obszaru rownoleglego:
+        a_shared        = 31
+        b_private       = 2
+        c_firstprivate  = 3
+        e_atomic        = 65

@@ -1,0 +1,30 @@
+mrntex@ArturNiemiec:~/PR/lab_10/sortowanie$ ./test_sortowanie
+podaj rozmiar tablicy:
+100000000
+czas sortowania systemowego: 11.142725
+wynik OK
+czas sortowania przez scalanie: 12.899651
+wynik OK
+czas sortowania szybkiego: 7.912085
+wynik OK
+czas rownoleglego sortowania przez scalanie: 3.121779
+wynik OK
+watek 20, poziom 0
+watek 22, poziom 1
+watek 22, poziom 2
+watek 22, poziom 3
+watek 10, poziom 2
+watek 10, poziom 3
+watek 12, poziom 3
+watek 20, poziom 1
+watek 20, poziom 2
+watek 20, poziom 3
+watek 17, poziom 3
+watek 9, poziom 2
+watek 9, poziom 3
+watek 2, poziom 3
+watek 4, poziom 3
+czas rownoleglego sortowania przez scalanie (final): 161.239553
+wynik OK
+czas rownoleglego sortowania przez scalanie (nested): 4.738862
+wynik OK
