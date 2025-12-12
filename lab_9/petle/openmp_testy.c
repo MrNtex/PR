@@ -11,7 +11,7 @@ int main ()
     for(int i=0;i<WYMIAR;i++) a[i]=1.02*i;
 
     printf("=== TEST 1: schedule(static, 3) ===\n");
-    #pragma omp parallel for default(none) shared(a) num_threads(4) schedule(static, 3)
+    #pragma omp parallel for default(none) shared(a) num_threads(4) schedule(static, 3) ordered
     for(int i=0; i<WYMIAR; i++) {
         int id_w = omp_get_thread_num();
 #pragma omp ordered
@@ -19,7 +19,7 @@ int main ()
     }
 
     printf("\n=== TEST 2: schedule(static) [domyślny rozmiar] ===\n");
-    #pragma omp parallel for default(none) shared(a) num_threads(4) schedule(static)
+    #pragma omp parallel for default(none) shared(a) num_threads(4) schedule(static) ordered
     for(int i=0; i<WYMIAR; i++) {
         int id_w = omp_get_thread_num();
 #pragma omp ordered
@@ -27,7 +27,7 @@ int main ()
     }
 
     printf("\n=== TEST 3: schedule(dynamic, 2) ===\n");
-    #pragma omp parallel for default(none) shared(a) num_threads(4) schedule(dynamic, 2)
+    #pragma omp parallel for default(none) shared(a) num_threads(4) schedule(dynamic, 2) ordered
     for(int i=0; i<WYMIAR; i++) {
         int id_w = omp_get_thread_num();
 #pragma omp ordered
@@ -35,7 +35,7 @@ int main ()
     }
 
     printf("\n=== TEST 4: schedule(dynamic) [domyślny rozmiar = 1] ===\n");
-    #pragma omp parallel for default(none) shared(a) num_threads(4) schedule(dynamic)
+    #pragma omp parallel for default(none) shared(a) num_threads(4) schedule(dynamic) ordered
     for(int i=0; i<WYMIAR; i++) {
         int id_w = omp_get_thread_num();
 #pragma omp ordered
