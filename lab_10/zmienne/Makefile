@@ -1,8 +1,8 @@
 # kompilator c
-CCOMP = gcc
+CCOMP = gcc-15
 
 # konsolidator
-LOADER = gcc
+LOADER = gcc-15
 
 # opcje optymalizacji:
 # wersja do debugowania

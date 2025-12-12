@@ -2,8 +2,8 @@
 
 NAZWA = test_sortowanie
 
-CC = gcc
-LD = gcc
+CC = gcc-15
+LD = gcc-15
 AR = ar -ru
 
 CFL = -O -fopenmp

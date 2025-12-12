@@ -33,11 +33,11 @@ int main(){
     int d_local_private;
     
     d_local_private = a_shared + c_firstprivate;
-    #pragma omp barrier // WAR - zmiana wartosci a_shared przed uzyciem przez wszystkie watki (linia 39)
+    #pragma omp barrier // WAR - zmiana wartosci a_shared przed uzyciem przez wszystkie watki (linie 35-44)
     
     f_threadprivate = omp_get_thread_num();
 
-    // WAW - race condition
+    // WAW/WAR/RAW - przez petle ponizej a
     #pragma omp critical(update_a_shared)
     {
       for(i=0;i<10;i++){
@@ -50,15 +50,15 @@ int main(){
     }
 
     for(i=0;i<10;i++){
-      // WAW - race condition
+      // WAW/WAR/RAW - przez petle ponizej e
       #pragma omp atomic
       e_atomic+=omp_get_thread_num();
     }
 
+    // RAW 67-44 a i e
     #pragma omp barrier
     
-    // WAW
-    #pragma omp critical(print_values)
+    #pragma omp critical(print_values) // WAW
     {
       
       printf("\nw obszarze równoległym: aktualna liczba watkow %d, moj ID %d\n",

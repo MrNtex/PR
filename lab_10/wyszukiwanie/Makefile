@@ -1,5 +1,5 @@
-CC = gcc
-LD = gcc
+CC = gcc-15
+LD = gcc-15
 
 
 OPT = -O3 -fopenmp
