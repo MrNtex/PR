@@ -23,6 +23,8 @@ void mat_vec(double* a, double* x, double* y, int n, int nt);
 int
 main ( int argc, char** argv )
 {
+  const int root = 0;
+
   static double x[WYMIAR],y[WYMIAR],z[WYMIAR]; // z is sized for column decomposition
   double *a;
   double t1;
@@ -44,7 +46,7 @@ main ( int argc, char** argv )
   // x is locally initialized to zero
   for(i=0;i<WYMIAR;i++) x[i]=0.0;
 
-  if(rank==0){  
+  if(rank==root){  
     
     a = (double *) malloc((ROZMIAR+1)*sizeof(double));
     
@@ -73,7 +75,7 @@ main ( int argc, char** argv )
     // z is initialized for all ranks
     for(i=0;i<WYMIAR;i++) z[i]=0.0;
 
-    MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD );
+    MPI_Bcast(&n, 1, MPI_INT, root, MPI_COMM_WORLD );
     // podzial wierszowy
     n_wier = ceil(WYMIAR / size);
     n_wier_last = WYMIAR - n_wier*(size-1);
@@ -138,17 +140,17 @@ main ( int argc, char** argv )
            
   //   }
   
-  MPI_Scatter(a, n_wier*WYMIAR, MPI_DOUBLE, a_local, n_wier*WYMIAR, MPI_DOUBLE, 0, MPI_COMM_WORLD );
-  if (rank == 0) {
+  MPI_Scatter(a, n_wier*WYMIAR, MPI_DOUBLE, a_local, n_wier*WYMIAR, MPI_DOUBLE, root, MPI_COMM_WORLD );
+  if (rank == root) {
     MPI_Scatter(x, n_wier, MPI_DOUBLE, 
                 MPI_IN_PLACE, n_wier, MPI_DOUBLE, 
-                0, MPI_COMM_WORLD);
+                root, MPI_COMM_WORLD);
   } else {
     MPI_Scatter(NULL, 0, MPI_DOUBLE, 
                 &x[rank * n_wier], n_wier, MPI_DOUBLE, 
-                0, MPI_COMM_WORLD);
+                root, MPI_COMM_WORLD);
   }
-    if(rank==0) {
+    if(rank==root) {
       printf("Starting MPI matrix-vector product with block row decomposition!\n");
       t1 = MPI_Wtime();
     }
@@ -176,7 +178,7 @@ main ( int argc, char** argv )
     
     // just to measure time
     MPI_Barrier(MPI_COMM_WORLD);        
-    if(rank==0) {
+    if(rank==root) {
       t1 = MPI_Wtime() - t1;
       printf("Wersja rownolegla MPI z dekompozycją wierszową blokową\n");
       printf("\tczas wykonania: %lf, Gflop/s: %lf, GB/s> %lf\n",  
@@ -202,17 +204,17 @@ main ( int argc, char** argv )
   //     }
       
   //   }
-  if (rank == 0) {
+  if (rank == root) {
     MPI_Gather(MPI_IN_PLACE, n_wier, MPI_DOUBLE, 
                 z, n_wier, MPI_DOUBLE, 
-                0, MPI_COMM_WORLD);
+                root, MPI_COMM_WORLD);
   } else {
     MPI_Gather(z, n_wier, MPI_DOUBLE, 
                 NULL, 0, MPI_DOUBLE,
-                0, MPI_COMM_WORLD);
+                root, MPI_COMM_WORLD);
   }
 
-      if(rank==0){
+      if(rank==root){
       
       for(i=0;i<WYMIAR;i++){
 	if(fabs(y[i]-z[i])>1.e-9*z[i]) {
@@ -234,13 +236,19 @@ main ( int argc, char** argv )
     
     // for each row (starting at i*WYMIAR - due to row storage)
     for(i=0;i<WYMIAR;i++){
+      double* send_ptr = (rank == root) ? &a[i * WYMIAR] : NULL;
+      double* recv_ptr = &a_local[i * n_col];
 
-      // ... collective communication necessary to distribute data
-      // several elements (corresponding to ncol columns) are send to each process 
-
+      MPI_Scatter(send_ptr, n_col, MPI_DOUBLE,
+                  recv_ptr, n_col, MPI_DOUBLE,
+                  root, MPI_COMM_WORLD);
     }
 
-    if(rank==0) {
+    double *x_local = (double *) malloc(n_col*sizeof(double));
+    MPI_Scatter( x, n_col, MPI_DOUBLE,
+                 x_local, n_col, MPI_DOUBLE,
+                 root, MPI_COMM_WORLD );
+    if(rank==root) {
       printf("Starting MPI matrix-vector product with block column decomposition!\n");
       t1 = MPI_Wtime();
     }
@@ -249,25 +257,11 @@ main ( int argc, char** argv )
     for(i=0;i<n;i++){      
       
       double t=0.0;
-      int ni;
-      if(rank==0){
-	// rank==0 stores the whole a - next row starts after n elements
-	ni = n_col*i;
-      } else {
-	// ranks>0 store the parts of a - next row starts after n_col elements
-	ni = n_col*i;
-      }
+      int ni = i * n_col;
       
-      // assuming the whole x stored at all processes (should be of size n_col with jj=0)
-      int jj = rank*n_col;
-      for(j=0;j<n_col;j++){
-	t+=a_local[ni+j]*x[jj+j];
-	//if(i==1){
-	//  printf("rank %d: row %d, column %d, a %lf, x %lf, current y %lf\n", 
-	//	 rank, i, j, a_local[ni+j], x[j], t);
-	//}
+      for (j=0;j<n_col;j++){
+        t+=a_local[ni+j]*x_local[j];
       }
-      //printf("rank %d: row %d, final y %lf\n", rank, i, t);
       z[i]=t;
     }
 
@@ -280,12 +274,15 @@ main ( int argc, char** argv )
 
     // II. All-to-all
     // WARNING: All-to-all requires large MPI buffers (check matrix size WYMIAR in case of errors)
+    double *work_buf = (double *) malloc(size * n_col * sizeof(double));
 
     // All-to-all requires also synchronisation
     /* MPI_Barrier(MPI_COMM_WORLD); */
 
     // Alltoall
-    // ...
+    MPI_Alltoall(z, n_col, MPI_DOUBLE,
+                 work_buf, n_col, MPI_DOUBLE,
+                 MPI_COMM_WORLD);
     
     // All-to-all requires synchronisation also at this point
     /* MPI_Barrier(MPI_COMM_WORLD); */
@@ -298,19 +295,23 @@ main ( int argc, char** argv )
     // (remark: nproc is equal to size in MPI nomenclature, not to be mixed up
     // with the size of parts of z equal to n_col)
     
-    /* for(i=0; i<size; i++){ */
-    /*   if(i!=rank){ */
-    /* 	for(j=0;j<n_col;j++){ */
-    /* 	  z[rank*n_col+j] += z[i*n_col+j]; */
-    /* 	} */
-    /*   } */
-    /* } */
+    double *my_final_part = (double*) malloc(n_col * sizeof(double));
+    for(j=0; j<n_col; j++) my_final_part[j] = 0.0;
+    
+    for(i=0; i<size; i++) {
+        double *chunk_ptr = &work_buf[i * n_col];
+        for(j=0; j<n_col; j++) {
+            my_final_part[j] += chunk_ptr[j];
+        }
+    }
     
     // end II. All-to-all
-
+    MPI_Allgather(my_final_part, n_col, MPI_DOUBLE,
+                  z, n_col, MPI_DOUBLE,
+                  MPI_COMM_WORLD);
     // just to measure time
     MPI_Barrier(MPI_COMM_WORLD);        
-    if(rank==0) {
+    if(rank==root) {
       t1 = MPI_Wtime() - t1;
       printf("Werja rownolegla MPI z dekompozycją kolumnową blokową\n");
       printf("\tczas wykonania: %lf, Gflop/s: %lf, GB/s> %lf\n",  
@@ -323,7 +324,7 @@ main ( int argc, char** argv )
     
     
     // testing - switch on after completing calculations and communcation
-    if(rank==0){
+    if(rank==root){
       
       for(i=0;i<WYMIAR;i++){
 	if(fabs(y[i]-z[i])>1.e-9*z[i]) {
