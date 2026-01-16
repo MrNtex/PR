@@ -48,7 +48,7 @@ int main(int argc, char** argv) {
 
         position = 0;
         MPI_Unpack(buffer, BUF_SIZE, &position, &dane.licznik, 1, MPI_INT, MPI_COMM_WORLD);
-        printf("[Proces %d] OTRZYMAŁ ZWROT: ID=%d (Koniec sztafety)\n", rank, dane.licznik);
+        printf("[Proces %d] OTRZYMAL ZWROT: ID=%d\n", rank, dane.licznik);
     }
     else {
         MPI_Recv(buffer, BUF_SIZE, MPI_PACKED, prev, tag, MPI_COMM_WORLD, &status);
@@ -59,7 +59,7 @@ int main(int argc, char** argv) {
         int len;
         MPI_Unpack(buffer, BUF_SIZE, &position, &len, 1, MPI_INT, MPI_COMM_WORLD);
         MPI_Unpack(buffer, BUF_SIZE, &position, dane.imie, len, MPI_CHAR, MPI_COMM_WORLD);
-        printf(" -> [Proces %d] Odebrał: ID=%d, Val=%.4f, Imie=%s\n", 
+        printf(" -> [Proces %d] Odebral: ID=%d, Val=%.4f, Imie=%s\n", 
                rank, dane.licznik, dane.wartosc, dane.imie);
         dane.licznik++;
         dane.wartosc += 1.1;
@@ -71,7 +71,7 @@ int main(int argc, char** argv) {
         MPI_Pack(&len, 1, MPI_INT, buffer, BUF_SIZE, &position, MPI_COMM_WORLD);
         MPI_Pack(dane.imie, len, MPI_CHAR, buffer, BUF_SIZE, &position, MPI_COMM_WORLD);
 
-        printf(" -> [Proces %d] Wysyła zmodyfikowane ID=%d\n", rank, dane.licznik);
+        printf(" -> [Proces %d] Wysyla ID=%d\n", rank, dane.licznik);
         MPI_Send(buffer, position, MPI_PACKED, next, tag, MPI_COMM_WORLD);
     }
 

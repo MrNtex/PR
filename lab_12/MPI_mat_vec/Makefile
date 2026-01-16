@@ -11,7 +11,7 @@ MPIRUN = mpiexec
 # OPT = -g -DDEBUG -p
 # wersja zoptymalizowana do mierzenia czasu
 # OPT = -O3 -fopenmp -p
-OPT = -O2 -fopenmp
+OPT = -O2 -Xpreprocessor -fopenmp
 #OPT = -O0 
 
 # pliki naglowkowe
@@ -43,7 +43,7 @@ mat_vec_row_MPI.o: mat_vec_row_MPI.c
 #	$(CCOMP) -c $(OPT) pomiar_czasu.c
 
 run:
-	$(MPIRUN) -np 4 --oversubscribe  ./mat_vec_row_MPI
+	$(MPIRUN) -np 2 --oversubscribe  ./mat_vec_row_MPI
 
 clean:
 	rm -f *.o ./mat_vec_row_MPI
